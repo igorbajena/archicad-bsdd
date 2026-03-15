@@ -1,0 +1,33 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "x64-debug-vs",
+      "displayName": "x64 Debug (Visual Studio)",
+      "generator": "Visual Studio 18 2026",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/out/build/x64-Debug",
+      "installDir": "${sourceDir}/out/install/x64-Debug"
+    },
+    {
+      "name": "x64-release-vs",
+      "displayName": "x64 Release (Visual Studio)",
+      "generator": "Visual Studio 18 2026",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/out/build/x64-Release",
+      "installDir": "${sourceDir}/out/install/x64-Release"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-x64-debug-vs",
+      "configurePreset": "x64-debug-vs",
+      "configuration": "Debug"
+    },
+    {
+      "name": "build-x64-release-vs",
+      "configurePreset": "x64-release-vs",
+      "configuration": "Release"
+    }
+  ]
+}
