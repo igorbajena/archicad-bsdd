@@ -15,21 +15,23 @@ class BSDDPalette final : public DG::Palette,
 {
 private:
 	enum {
-		ResultsTextId = 5,
-		MockSearchButtonId = 6,
-		ClearButtonId = 7,
-		HideButtonId = 8
+		SearchEditId = 5,
+		ResultsTextId = 7,
+		SearchButtonId = 8,
+		ClearButtonId = 9,
+		HideButtonId = 10
 	};
 
 	static GS::Ref<BSDDPalette> instance;
 
+	DG::TextEdit searchEdit;
 	DG::LeftText resultsText;
-	DG::Button mockSearchButton;
+	DG::Button searchButton;
 	DG::Button clearButton;
 	DG::Button hideButton;
 
 	void SetMenuItemCheckedState(bool isChecked);
-	void SetMockResults();
+	void RunMockSearch();
 	void ClearResults();
 
 	static GSErrCode PaletteControlCallBack(Int32 paletteId, API_PaletteMessageID messageID, GS::IntPtr param);

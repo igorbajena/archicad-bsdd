@@ -18,17 +18,25 @@ static GSErrCode NotificationHandler(API_NotifyEventID notifID, Int32 /*param*/)
 	return NoError;
 }
 
+static GS::UniString ToLowerCopy(const GS::UniString& input)
+{
+	GS::UniString result = input;
+	result.ToLowerCase();
+	return result;
+}
+
 BSDDPalette::BSDDPalette() :
 	DG::Palette(ACAPI_GetOwnResModule(), BSDDPaletteResId, ACAPI_GetOwnResModule(), paletteGuid),
+	searchEdit(GetReference(), SearchEditId),
 	resultsText(GetReference(), ResultsTextId),
-	mockSearchButton(GetReference(), MockSearchButtonId),
+	searchButton(GetReference(), SearchButtonId),
 	clearButton(GetReference(), ClearButtonId),
 	hideButton(GetReference(), HideButtonId)
 {
 	ACAPI_ProjectOperation_CatchProjectEvent(APINotify_Quit, NotificationHandler);
 
 	Attach(*this);
-	mockSearchButton.Attach(*this);
+	searchButton.Attach(*this);
 	clearButton.Attach(*this);
 	hideButton.Attach(*this);
 
@@ -39,7 +47,7 @@ BSDDPalette::~BSDDPalette()
 {
 	hideButton.Detach(*this);
 	clearButton.Detach(*this);
-	mockSearchButton.Detach(*this);
+	searchButton.Detach(*this);
 	Detach(*this);
 
 	EndEventProcessing();
@@ -88,14 +96,38 @@ void BSDDPalette::SetMenuItemCheckedState(bool isChecked)
 	ACAPI_MenuItem_SetMenuItemFlags(&itemRef, &itemFlags);
 }
 
-void BSDDPalette::SetMockResults()
+void BSDDPalette::RunMockSearch()
 {
-	resultsText.SetText(GS::UniString("Wall\r\nDoor\r\nWindow"));
+	GS::Array<GS::UniString> allItems;
+	allItems.Push(GS::UniString("Wall"));
+	allItems.Push(GS::UniString("Door"));
+	allItems.Push(GS::UniString("Window"));
+
+	GS::UniString query = ToLowerCopy(searchEdit.GetText());
+	GS::UniString output;
+
+	for (UIndex i = 0; i < allItems.GetSize(); ++i) {
+		GS::UniString loweredItem = ToLowerCopy(allItems[i]);
+
+		if (query.IsEmpty() || loweredItem.Contains(query)) {
+			if (!output.IsEmpty()) {
+				output.Append("\r\n");
+			}
+			output.Append(allItems[i]);
+		}
+	}
+
+	if (output.IsEmpty()) {
+		output = "No matching results.";
+	}
+
+	resultsText.SetText(output);
 }
 
 void BSDDPalette::ClearResults()
 {
-	resultsText.SetText(GS::UniString("No results yet."));
+	searchEdit.SetText("");
+	resultsText.SetText("No results yet.");
 }
 
 void BSDDPalette::Show()
@@ -112,8 +144,8 @@ void BSDDPalette::Hide()
 
 void BSDDPalette::ButtonClicked(const DG::ButtonClickEvent& ev)
 {
-	if (ev.GetSource() == &mockSearchButton) {
-		SetMockResults();
+	if (ev.GetSource() == &searchButton) {
+		RunMockSearch();
 		return;
 	}
 

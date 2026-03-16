@@ -1,23 +1,27 @@
 #include "DGDefs.h"
 
-'GDLG' 32520 Palette | topCaption | close | grow   0   0   360   280  "bSDD Palette" {
+'GDLG' 32520 Palette | topCaption | close | grow   0   0   360   320  "bSDD Palette" {
 	/* [ 1] */ LeftText   12   12  220   20 LargeBold  vCenter "bSDD Palette"
 	/* [ 2] */ LeftText   12   42  330   24 LargePlain "Palette-based MVP skeleton."
 	/* [ 3] */ Separator  12   78  336    2
-	/* [ 4] */ LeftText   12   92  120   18 LargeBold  vCenter "Results"
-	/* [ 5] */ LeftText   12  116  330   96 LargePlain "No results yet."
-	/* [ 6] */ Button     34  236   95   23 LargePlain "Mock search"
-	/* [ 7] */ Button    141  236   95   23 LargePlain "Clear"
-	/* [ 8] */ Button    248  236   95   23 LargePlain "Hide"
+	/* [ 4] */ LeftText   12   92  100   18 LargeBold  vCenter "Search term"
+	/* [ 5] */ TextEdit  118   89  230   23 LargePlain 256
+	/* [ 6] */ LeftText   12  126  120   18 LargeBold  vCenter "Results"
+	/* [ 7] */ LeftText   12  150  330  110 LargePlain "No results yet."
+	/* [ 8] */ Button     16  276   95   23 LargePlain "Search"
+	/* [ 9] */ Button    129  276   95   23 LargePlain "Clear"
+	/* [10] */ Button    242  276   95   23 LargePlain "Hide"
 }
 
 'DLGH' 32520 DLG_32520_BSDD_Palette {
-	1	"Title"			LeftText_0
-	2	"Description"		LeftText_1
-	3	"Separator"		Separator_0
-	4	"Results Label"		LeftText_2
-	5	"Results Text"		LeftText_3
-	6	"Mock Search Button"	Button_0
-	7	"Clear Button"		Button_1
-	8	"Hide Button"		Button_2
+	1	""	LeftText_0
+	2	""	LeftText_1
+	3	""	Separator_0
+	4	""	LeftText_2
+	5	""	TextEdit_0
+	6	""	LeftText_3
+	7	""	LeftText_4
+	8	""	Button_0
+	9	""	Button_1
+	10	""	Button_2
 }
