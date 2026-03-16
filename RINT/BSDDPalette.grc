@@ -1,0 +1,17 @@
+#include "DGDefs.h"
+
+'GDLG' 32520 Palette | topCaption | close | grow   0   0   360   220  "bSDD Palette" {
+	/* [ 1] */ LeftText   12   12  220   20 LargeBold  vCenter "bSDD Palette"
+	/* [ 2] */ LeftText   12   42  330   36 LargePlain "This is the clean palette-based MVP skeleton."
+	/* [ 3] */ Separator  12   90  336    2
+	/* [ 4] */ Button    140  182   95   23 LargePlain "Mock search"
+	/* [ 5] */ Button    247  182   95   23 LargePlain "Hide"
+}
+
+'DLGH' 32520 DLG_32520_BSDD_Palette {
+	1	"Title"			LeftText_0
+	2	"Description"		LeftText_1
+	3	"Separator"		Separator_0
+	4	"Mock Search Button"	Button_0
+	5	"Hide Button"		Button_1
+}

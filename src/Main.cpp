@@ -1,36 +1,47 @@
+#include "APIEnvir.h"
 #include "ACAPinc.h"
-#include "Classification_Test.hpp"
-#include "SearchClassDialog.hpp"
+
+#include "BSDDPalette.hpp"
 
 static constexpr short AddOnInfoResID = 32000;
 static constexpr short MenuResID = 32500;
 static constexpr short MenuPromptResID = 32600;
 
 enum MenuItems {
-	Menu_SearchClass = 1,
+	Menu_OpenPalette = 1,
 	Menu_About = 2
 };
 
-
-GSErrCode APIMenuCommandProc_Main(const API_MenuParams* menuParams)
+static void ShowOrHideBSDDPalette()
 {
-	if (menuParams->menuItemRef.menuResID != MenuResID)
+	if (BSDDPalette::HasInstance() && BSDDPalette::GetInstance().IsVisible()) {
+		BSDDPalette::GetInstance().Hide();
+	}
+	else {
+		if (!BSDDPalette::HasInstance()) {
+			BSDDPalette::CreateInstance();
+		}
+		BSDDPalette::GetInstance().Show();
+	}
+}
+
+GSErrCode MenuCommandHandler(const API_MenuParams* menuParams)
+{
+	if (menuParams->menuItemRef.menuResID != MenuResID) {
 		return NoError;
+	}
 
 	switch (menuParams->menuItemRef.itemIndex) {
-	case Menu_SearchClass:
-	{
-		SearchClassDialog dialog;
-		dialog.Invoke();
+	case Menu_OpenPalette:
+		ShowOrHideBSDDPalette();
 		break;
-	}
 
 	case Menu_About:
 		DGAlert(
 			DG_INFORMATION,
 			"ArchicadBSDD",
 			"ArchicadBSDD MVP",
-			"Experimental Archicad add-on for bSDD class search and future property assignment.",
+			"Palette-based skeleton for future bSDD search and assignment workflow.",
 			"OK"
 		);
 		break;
@@ -42,27 +53,33 @@ GSErrCode APIMenuCommandProc_Main(const API_MenuParams* menuParams)
 	return NoError;
 }
 
-
 API_AddonType CheckEnvironment(API_EnvirParams* envir)
 {
 	RSGetIndString(&envir->addOnInfo.name, AddOnInfoResID, 1, ACAPI_GetOwnResModule());
 	RSGetIndString(&envir->addOnInfo.description, AddOnInfoResID, 2, ACAPI_GetOwnResModule());
 
-	return APIAddon_Normal;
+	return APIAddon_Preload;
 }
-
 
 GSErrCode RegisterInterface(void)
 {
 	return ACAPI_MenuItem_RegisterMenu(MenuResID, MenuPromptResID, MenuCode_UserDef, MenuFlag_Default);
 }
 
-
 GSErrCode Initialize(void)
 {
-	return ACAPI_MenuItem_InstallMenuHandler(MenuResID, APIMenuCommandProc_Main);
-}
+	GSErrCode err = ACAPI_MenuItem_InstallMenuHandler(MenuResID, MenuCommandHandler);
+	if (err != NoError) {
+		return err;
+	}
 
+	err = BSDDPalette::RegisterPaletteControlCallBack();
+	if (err != NoError) {
+		return err;
+	}
+
+	return NoError;
+}
 
 GSErrCode FreeData(void)
 {

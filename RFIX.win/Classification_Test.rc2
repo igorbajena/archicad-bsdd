@@ -1,9 +1,0 @@
-/****************************************************************************/
-/*																			*/
-/*				Win resources for "Classification_Test" API tool			*/
-/*																			*/
-/****************************************************************************/
-
-#include "ArchicadBSDD.grc.rc2"
-#include "Classification_TestFix.grc.rc2"
-1	ICON    LOADONCALL MOVEABLE IMPURE  ACAP.ICO
