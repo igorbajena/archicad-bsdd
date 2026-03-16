@@ -12,12 +12,12 @@
 
 'STR#' 32500 "Menu" {
 /* [   ] */		"bSDD"
-/* [   ] */		"Tools"
-/* [  1] */			"Show test dialog"
+/* [  1] */		"Search class..."
+/* [  2] */		"About"
 }
 
 'STR#' 32600 "Menu Prompt string" {
 /* [   ] */		"bSDD"
-/* [   ] */		"Tools"
-/* [  1] */			"Show test dialog"
+/* [  1] */		"Search classes in buildingSMART Data Dictionary"
+/* [  2] */		"About ArchicadBSDD"
 }

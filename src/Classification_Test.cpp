@@ -1,5 +1,6 @@
 #include "ACAPinc.h"
 #include "Classification_Test.hpp"
+#include "SearchClassDialog.hpp"
 
 static constexpr short AddOnInfoResID = 32000;
 static constexpr short MenuResID = 32500;
@@ -18,14 +19,11 @@ GSErrCode APIMenuCommandProc_Main(const API_MenuParams* menuParams)
 
 	switch (menuParams->menuItemRef.itemIndex) {
 	case Menu_SearchClass:
-		DGAlert(
-			DG_INFORMATION,
-			"ArchicadBSDD",
-			"Search class...",
-			"Next step: this command will open the bSDD search dialog.",
-			"OK"
-		);
+	{
+		SearchClassDialog dialog;
+		dialog.Invoke();
 		break;
+	}
 
 	case Menu_About:
 		DGAlert(
