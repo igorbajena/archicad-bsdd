@@ -20,13 +20,16 @@ static GSErrCode NotificationHandler(API_NotifyEventID notifID, Int32 /*param*/)
 
 BSDDPalette::BSDDPalette() :
 	DG::Palette(ACAPI_GetOwnResModule(), BSDDPaletteResId, ACAPI_GetOwnResModule(), paletteGuid),
+	resultsText(GetReference(), ResultsTextId),
 	mockSearchButton(GetReference(), MockSearchButtonId),
+	clearButton(GetReference(), ClearButtonId),
 	hideButton(GetReference(), HideButtonId)
 {
 	ACAPI_ProjectOperation_CatchProjectEvent(APINotify_Quit, NotificationHandler);
 
 	Attach(*this);
 	mockSearchButton.Attach(*this);
+	clearButton.Attach(*this);
 	hideButton.Attach(*this);
 
 	BeginEventProcessing();
@@ -35,6 +38,7 @@ BSDDPalette::BSDDPalette() :
 BSDDPalette::~BSDDPalette()
 {
 	hideButton.Detach(*this);
+	clearButton.Detach(*this);
 	mockSearchButton.Detach(*this);
 	Detach(*this);
 
@@ -84,6 +88,16 @@ void BSDDPalette::SetMenuItemCheckedState(bool isChecked)
 	ACAPI_MenuItem_SetMenuItemFlags(&itemRef, &itemFlags);
 }
 
+void BSDDPalette::SetMockResults()
+{
+	resultsText.SetText(GS::UniString("Wall\r\nDoor\r\nWindow"));
+}
+
+void BSDDPalette::ClearResults()
+{
+	resultsText.SetText(GS::UniString("No results yet."));
+}
+
 void BSDDPalette::Show()
 {
 	DG::Palette::Show();
@@ -99,13 +113,12 @@ void BSDDPalette::Hide()
 void BSDDPalette::ButtonClicked(const DG::ButtonClickEvent& ev)
 {
 	if (ev.GetSource() == &mockSearchButton) {
-		DGAlert(
-			DG_INFORMATION,
-			"ArchicadBSDD",
-			"Mock results",
-			"Wall\nDoor\nWindow",
-			"OK"
-		);
+		SetMockResults();
+		return;
+	}
+
+	if (ev.GetSource() == &clearButton) {
+		ClearResults();
 		return;
 	}
 
