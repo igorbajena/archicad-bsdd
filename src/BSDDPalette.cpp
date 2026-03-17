@@ -18,13 +18,6 @@ static GSErrCode NotificationHandler(API_NotifyEventID notifID, Int32 /*param*/)
 	return NoError;
 }
 
-static GS::UniString ToLowerCopy(const GS::UniString& input)
-{
-	GS::UniString result = input;
-	result.ToLowerCase();
-	return result;
-}
-
 BSDDPalette::BSDDPalette() :
 	DG::Palette(ACAPI_GetOwnResModule(), BSDDPaletteResId, ACAPI_GetOwnResModule(), paletteGuid),
 	searchEdit(GetReference(), SearchEditId),
@@ -99,7 +92,7 @@ void BSDDPalette::SetMenuItemCheckedState(bool isChecked)
 	ACAPI_MenuItem_SetMenuItemFlags(&itemRef, &itemFlags);
 }
 
-void BSDDPalette::ShowDetails(const MockBSDDItem& item)
+void BSDDPalette::ShowDetails(const BSDDService::SearchResult& item)
 {
 	detailLabelValue.SetText(item.label);
 	detailCodeValue.SetText(item.codeOrUri);
@@ -115,40 +108,24 @@ void BSDDPalette::ClearDetails()
 
 void BSDDPalette::RunMockSearch()
 {
-	GS::Array<MockBSDDItem> allItems;
-	allItems.Push({ "Wall", "mock:class/wall", "Mock Dictionary A" });
-	allItems.Push({ "Door", "mock:class/door", "Mock Dictionary A" });
-	allItems.Push({ "Window", "mock:class/window", "Mock Dictionary B" });
+	GS::Array<BSDDService::SearchResult> results = BSDDService::GetMockSearchResults(searchEdit.GetText());
 
-	GS::UniString query = ToLowerCopy(searchEdit.GetText());
-	GS::UniString output;
-	bool foundAny = false;
-	MockBSDDItem firstMatch;
-
-	for (UIndex i = 0; i < allItems.GetSize(); ++i) {
-		GS::UniString loweredLabel = ToLowerCopy(allItems[i].label);
-
-		if (query.IsEmpty() || loweredLabel.Contains(query)) {
-			if (!output.IsEmpty()) {
-				output.Append("\r\n");
-			}
-			output.Append(allItems[i].label);
-
-			if (!foundAny) {
-				firstMatch = allItems[i];
-				foundAny = true;
-			}
-		}
-	}
-
-	if (foundAny) {
-		resultsText.SetText(output);
-		ShowDetails(firstMatch);
-	}
-	else {
+	if (results.IsEmpty()) {
 		resultsText.SetText("No matching results.");
 		ClearDetails();
+		return;
 	}
+
+	GS::UniString output;
+	for (UIndex i = 0; i < results.GetSize(); ++i) {
+		if (!output.IsEmpty()) {
+			output.Append("\r\n");
+		}
+		output.Append(results[i].label);
+	}
+
+	resultsText.SetText(output);
+	ShowDetails(results[0]);
 }
 
 void BSDDPalette::ClearResults()

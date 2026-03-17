@@ -5,6 +5,8 @@
 #include "ACAPinc.h"
 #include "DGModule.hpp"
 
+#include "BSDDService.hpp"
+
 #define BSDDPaletteResId 32520
 #define BSDDPaletteMenuResId 32500
 #define BSDDPaletteMenuItemIndex 1
@@ -27,12 +29,6 @@ private:
 		HideButtonId = 18
 	};
 
-	struct MockBSDDItem {
-		GS::UniString label;
-		GS::UniString codeOrUri;
-		GS::UniString dictionary;
-	};
-
 	static GS::Ref<BSDDPalette> instance;
 
 	DG::TextEdit searchEdit;
@@ -49,7 +45,7 @@ private:
 	void SetMenuItemCheckedState(bool isChecked);
 	void RunMockSearch();
 	void ClearResults();
-	void ShowDetails(const MockBSDDItem& item);
+	void ShowDetails(const BSDDService::SearchResult& item);
 	void ClearDetails();
 
 	static GSErrCode PaletteControlCallBack(Int32 paletteId, API_PaletteMessageID messageID, GS::IntPtr param);
