@@ -29,6 +29,9 @@ BSDDPalette::BSDDPalette() :
 	DG::Palette(ACAPI_GetOwnResModule(), BSDDPaletteResId, ACAPI_GetOwnResModule(), paletteGuid),
 	searchEdit(GetReference(), SearchEditId),
 	resultsText(GetReference(), ResultsTextId),
+	detailLabelValue(GetReference(), DetailLabelValueId),
+	detailCodeValue(GetReference(), DetailCodeValueId),
+	detailDictionaryValue(GetReference(), DetailDictionaryValueId),
 	searchButton(GetReference(), SearchButtonId),
 	clearButton(GetReference(), ClearButtonId),
 	hideButton(GetReference(), HideButtonId)
@@ -96,38 +99,63 @@ void BSDDPalette::SetMenuItemCheckedState(bool isChecked)
 	ACAPI_MenuItem_SetMenuItemFlags(&itemRef, &itemFlags);
 }
 
+void BSDDPalette::ShowDetails(const MockBSDDItem& item)
+{
+	detailLabelValue.SetText(item.label);
+	detailCodeValue.SetText(item.codeOrUri);
+	detailDictionaryValue.SetText(item.dictionary);
+}
+
+void BSDDPalette::ClearDetails()
+{
+	detailLabelValue.SetText("-");
+	detailCodeValue.SetText("-");
+	detailDictionaryValue.SetText("-");
+}
+
 void BSDDPalette::RunMockSearch()
 {
-	GS::Array<GS::UniString> allItems;
-	allItems.Push(GS::UniString("Wall"));
-	allItems.Push(GS::UniString("Door"));
-	allItems.Push(GS::UniString("Window"));
+	GS::Array<MockBSDDItem> allItems;
+	allItems.Push({ "Wall", "mock:class/wall", "Mock Dictionary A" });
+	allItems.Push({ "Door", "mock:class/door", "Mock Dictionary A" });
+	allItems.Push({ "Window", "mock:class/window", "Mock Dictionary B" });
 
 	GS::UniString query = ToLowerCopy(searchEdit.GetText());
 	GS::UniString output;
+	bool foundAny = false;
+	MockBSDDItem firstMatch;
 
 	for (UIndex i = 0; i < allItems.GetSize(); ++i) {
-		GS::UniString loweredItem = ToLowerCopy(allItems[i]);
+		GS::UniString loweredLabel = ToLowerCopy(allItems[i].label);
 
-		if (query.IsEmpty() || loweredItem.Contains(query)) {
+		if (query.IsEmpty() || loweredLabel.Contains(query)) {
 			if (!output.IsEmpty()) {
 				output.Append("\r\n");
 			}
-			output.Append(allItems[i]);
+			output.Append(allItems[i].label);
+
+			if (!foundAny) {
+				firstMatch = allItems[i];
+				foundAny = true;
+			}
 		}
 	}
 
-	if (output.IsEmpty()) {
-		output = "No matching results.";
+	if (foundAny) {
+		resultsText.SetText(output);
+		ShowDetails(firstMatch);
 	}
-
-	resultsText.SetText(output);
+	else {
+		resultsText.SetText("No matching results.");
+		ClearDetails();
+	}
 }
 
 void BSDDPalette::ClearResults()
 {
 	searchEdit.SetText("");
 	resultsText.SetText("No results yet.");
+	ClearDetails();
 }
 
 void BSDDPalette::Show()

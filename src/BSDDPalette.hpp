@@ -17,15 +17,31 @@ private:
 	enum {
 		SearchEditId = 5,
 		ResultsTextId = 7,
-		SearchButtonId = 8,
-		ClearButtonId = 9,
-		HideButtonId = 10
+
+		DetailLabelValueId = 11,
+		DetailCodeValueId = 13,
+		DetailDictionaryValueId = 15,
+
+		SearchButtonId = 16,
+		ClearButtonId = 17,
+		HideButtonId = 18
+	};
+
+	struct MockBSDDItem {
+		GS::UniString label;
+		GS::UniString codeOrUri;
+		GS::UniString dictionary;
 	};
 
 	static GS::Ref<BSDDPalette> instance;
 
 	DG::TextEdit searchEdit;
 	DG::LeftText resultsText;
+
+	DG::LeftText detailLabelValue;
+	DG::LeftText detailCodeValue;
+	DG::LeftText detailDictionaryValue;
+
 	DG::Button searchButton;
 	DG::Button clearButton;
 	DG::Button hideButton;
@@ -33,6 +49,8 @@ private:
 	void SetMenuItemCheckedState(bool isChecked);
 	void RunMockSearch();
 	void ClearResults();
+	void ShowDetails(const MockBSDDItem& item);
+	void ClearDetails();
 
 	static GSErrCode PaletteControlCallBack(Int32 paletteId, API_PaletteMessageID messageID, GS::IntPtr param);
 
