@@ -188,6 +188,7 @@ endif ()
 target_include_directories (AddOn PUBLIC
 	${AddOnSourcesFolder}
 	${AC_API_DEVKIT_DIR}/Support/Inc
+	${AC_API_DEVKIT_DIR}/Support/Modules
 )
 
 if (WIN32)

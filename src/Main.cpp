@@ -8,21 +8,16 @@ static constexpr short MenuResID = 32500;
 static constexpr short MenuPromptResID = 32600;
 
 enum MenuItems {
-	Menu_OpenPalette = 1,
-	Menu_About = 2
+	Menu_OpenPalette = 1
 };
 
-static void ShowOrHideBSDDPalette()
+static void OpenBSDDPalette()
 {
-	if (BSDDPalette::HasInstance() && BSDDPalette::GetInstance().IsVisible()) {
-		BSDDPalette::GetInstance().Hide();
+	if (!BSDDPalette::HasInstance()) {
+		BSDDPalette::CreateInstance();
 	}
-	else {
-		if (!BSDDPalette::HasInstance()) {
-			BSDDPalette::CreateInstance();
-		}
-		BSDDPalette::GetInstance().Show();
-	}
+
+	BSDDPalette::GetInstance().Show();
 }
 
 GSErrCode MenuCommandHandler(const API_MenuParams* menuParams)
@@ -33,17 +28,7 @@ GSErrCode MenuCommandHandler(const API_MenuParams* menuParams)
 
 	switch (menuParams->menuItemRef.itemIndex) {
 	case Menu_OpenPalette:
-		ShowOrHideBSDDPalette();
-		break;
-
-	case Menu_About:
-		DGAlert(
-			DG_INFORMATION,
-			"ArchicadBSDD",
-			"ArchicadBSDD MVP",
-			"Palette-based skeleton for future bSDD search and assignment workflow.",
-			"OK"
-		);
+		OpenBSDDPalette();
 		break;
 
 	default:

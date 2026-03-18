@@ -1,3 +1,5 @@
+#include "MDIDs_APICD.h"
+
 'MDID' 32500 "Add-On Identifier" {
 	942946631
 	2853323923
@@ -5,17 +7,19 @@
 
 'STR#' 32000 "Add-on Name and Description" {
 /* [  1] */		"ArchicadBSDD"
-/* [  2] */		"bSDD palette for class search and IFC-oriented metadata workflows"
+/* [  2] */		"Experimental bSDD add-on for Archicad"
 }
 
 'STR#' 32500 "Menu" {
-/* [   ] */		"bSDD"
-/* [   ] */		"Open bSDD"
-/* [  1] */		"About^ES^EE^EI^ED^EW^E3^EL"
+/* [   ] */		"bSDD Palette"
+/* [  1] */		"Open"
 }
 
 'STR#' 32600 "Menu Prompt string" {
-/* [   ] */		"bSDD"
-/* [   ] */		"Open the bSDD palette"
-/* [  1] */		"About ArchicadBSDD"
+/* [   ] */		"bSDD Palette"
+/* [  1] */		"Open bSDD Palette"
+}
+
+'GICN' 32530 "bSDD Logo" {
+	"bsdd_logo"
 }

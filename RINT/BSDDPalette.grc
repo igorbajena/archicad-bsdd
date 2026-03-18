@@ -1,32 +1,29 @@
 #include "DGDefs.h"
 
-'GDLG' 32520 Palette | topCaption | close | grow   0   0   380   390  "bSDD Palette" {
-	/* [ 1] */ LeftText   12   12  220   20 LargeBold  vCenter "bSDD Palette"
-	/* [ 2] */ LeftText   12   42  350   24 LargePlain "Palette-based MVP skeleton."
-	/* [ 3] */ Separator  12   78  356    2
+'GDLG' 32520 Palette | topCaption | close | grow   0   0   530   700  "bSDD Palette" {
+	/* [ 1] */ LeftText       12   12  220   20 LargeBold  vCenter "bSDD Palette"
+	/* [ 2] */ LeftText       12   42  500   24 LargePlain "Palette-based MVP skeleton."
+	/* [ 3] */ Separator      12   78  506    2
 
-	/* [ 4] */ LeftText   12   92  100   18 LargeBold  vCenter "Search term"
-	/* [ 5] */ TextEdit  118   89  244   23 LargePlain 256
+	/* [ 4] */ LeftText       12   92  100   18 LargeBold  vCenter "Search term"
+	/* [ 5] */ TextEdit      118   89  394   23 LargePlain 256
 
-	/* [ 6] */ LeftText   12  126  120   18 LargeBold  vCenter "Results"
-	/* [ 7] */ LeftText   12  150  350   72 LargePlain "No results yet."
+	/* [ 6] */ LeftText       12  122  120   18 LargeBold  vCenter "Filter dictionaries"
+	/* [ 7] */ TextEdit      118  119  394   23 LargePlain 256
 
-	/* [ 8] */ Separator  12  232  356    2
+	/* [ 8] */ LeftText       12  154  140   18 LargeBold  vCenter "Results (0)"
+	/* [ 9] */ SingleSelList  12  178  506  220 SmallPlain PartialItems 21 HasHeader 21
 
-	/* [ 9] */ LeftText   12  246  180   18 LargeBold  vCenter "Selected item details"
+	/* [10] */ Separator      12  410  506    2
 
-	/* [10] */ LeftText   12  274   80   18 LargePlain vCenter "Label"
-	/* [11] */ LeftText   98  274  264   18 LargePlain vCenter "-"
+	/* [11] */ LeftText       12  424  180   18 LargeBold  vCenter "Dictionary metadata"
+	/* [12] */ SingleSelList  12  448  506  180 SmallPlain PartialItems 21 HasHeader 21
 
-	/* [12] */ LeftText   12  298   80   18 LargePlain vCenter "Code / URI"
-	/* [13] */ LeftText   98  298  264   18 LargePlain vCenter "-"
+	/* [18] */ Button        127  662   84   23 LargePlain "Search"
+	/* [20] */ Button        223  662   84   23 LargePlain "Clear"
+	/* [21] */ Button        319  662   84   23 LargePlain "Hide"
 
-	/* [14] */ LeftText   12  322   80   18 LargePlain vCenter "Dictionary"
-	/* [15] */ LeftText   98  322  264   18 LargePlain vCenter "-"
-
-	/* [16] */ Button     26  354   95   23 LargePlain "Search"
-	/* [17] */ Button    143  354   95   23 LargePlain "Clear"
-	/* [18] */ Button    260  354   95   23 LargePlain "Hide"
+	/* [22] */ Icon          360   10  118   42    32530
 }
 
 'DLGH' 32520 DLG_32520_BSDD_Palette {
@@ -36,16 +33,14 @@
 	4	""	LeftText_2
 	5	""	TextEdit_0
 	6	""	LeftText_3
-	7	""	LeftText_4
-	8	""	Separator_1
-	9	""	LeftText_5
-	10	""	LeftText_6
-	11	""	LeftText_7
-	12	""	LeftText_8
-	13	""	LeftText_9
-	14	""	LeftText_10
-	15	""	LeftText_11
-	16	""	Button_0
-	17	""	Button_1
-	18	""	Button_2
+	7	""	TextEdit_1
+	8	""	LeftText_4
+	9	""	SingleSelListBox_0
+	10	""	Separator_1
+	11	""	LeftText_5
+	12	""	SingleSelListBox_1
+	18	""	Button_0
+	20	""	Button_1
+	21	""	Button_2
+	22	""	Icon_0
 }
